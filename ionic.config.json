@@ -1,0 +1,7 @@
+{
+  "name": "test-bg-task",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
