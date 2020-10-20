@@ -38,7 +38,7 @@ export class HomePage implements OnInit {
       .pipe(
         delay(5000),
         map((data) => {
-          this.pendingRequest = true;
+          this.pendingRequest = false;
           return data.status;
         })
       );
