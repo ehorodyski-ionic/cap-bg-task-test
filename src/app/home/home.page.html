@@ -9,11 +9,19 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
+      <ion-title size="large">Messages</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <div id="container">
-    <strong>{{data | async}}</strong>
-  </div>
+  <ion-list>
+    <ion-item *ngFor="let message of messages">
+      <ion-label><small>{{message.status}}</small></ion-label>
+      <p><small>{{message.message}}</small></p>
+    </ion-item>
+  </ion-list>
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button expand="full" (click)="sendMessage()">Send Message</ion-button>
+  </ion-toolbar>
+</ion-footer>

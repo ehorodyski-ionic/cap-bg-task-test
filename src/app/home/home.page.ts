@@ -12,35 +12,39 @@ const { App, BackgroundTask } = Plugins;
   styleUrls: ["home.page.scss"],
 })
 export class HomePage implements OnInit {
-  data: Observable<string> = of("");
+  messages = [];
   pendingRequest: boolean = false;
 
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    this.sendMessage();
-    App.addListener("appStateChange", (state) => {
-      if (!state.isActive && this.pendingRequest) {
-        let taskId = BackgroundTask.beforeExit(() => {
-          this.data.subscribe((data) =>
-            console.log(`E/ ${data} - ${new Date(Date.now()).getTime()}`)
-          );
-          BackgroundTask.finish({ taskId });
-        });
-      }
-    });
+    // App.addListener("appStateChange", (state) => {
+    //   if (!state.isActive && this.pendingRequest) {
+    //     let taskId = BackgroundTask.beforeExit(() => {
+    //       this.data.subscribe((data) =>
+    //         console.log(`E/ ${data} - ${new Date(Date.now()).getTime()}`)
+    //       );
+    //       BackgroundTask.finish({ taskId });
+    //     });
+    //   }
+    // });
   }
 
   sendMessage() {
+    console.log(`E/`);
     this.pendingRequest = true;
-    this.data = this.http
-      .get<any>("http://dummy.restapiexample.com/api/v1/employees")
-      .pipe(
-        delay(5000),
-        map((data) => {
-          this.pendingRequest = false;
-          return data.status;
-        })
-      );
+    this.http
+      .get<any>(
+        "http://slowwly.robertomurray.co.uk/delay/10000/url/https://jsonplaceholder.typicode.com/posts"
+      )
+      .subscribe((data) => {
+        //this.pendingRequest = false;
+
+        for (let message of data) {
+          this.messages.push({ status: message.id, message: message.title });
+        }
+      });
   }
 }
+
+//
